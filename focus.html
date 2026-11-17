@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>سَكينة | وضع التركيز</title>
+
+<style>
+body {
+    background: #F4F0E6;
+    color: #536B50;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 420px;
+    margin: 40px auto;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    margin-top: 25px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #D8D3C5;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #536B50;
+    margin-top: 15px;
+}
+
+#timer {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 25px 0;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #536B50;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.stop {
+    background: #A77B70;
+}
+
+a {
+    display: block;
+    color: #536B50;
+    margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>سَكينة 🌿</h1>
+<p>خذ استراحة من هاتفك وامنح وقتك للصلاة</p>
+
+<div class="card">
+
+<h2>وضع التركيز</h2>
+
+<p>اختر مدة التركيز</p>
+
+<select id="duration">
+<option value="5">5 دقائق</option>
+<option value="10">10 دقائق</option>
+<option value="15">15 دقيقة</option>
+<option value="20">20 دقيقة</option>
+<option value="30">30 دقيقة</option>
+<option value="45">45 دقيقة</option>
+<option value="60">60 دقيقة</option>
+</select>
+
+<div id="timer">00:00</div>
+
+<button id="start" onclick="startFocus()">
+ابدأ التركيز
+</button>
+
+<button class="stop" onclick="stopFocus()">
+إيقاف التركيز
+</button>
+
+<p id="message"></p>
+
+</div>
+
+<a href="index.html">العودة إلى الصفحة الرئيسية</a>
+
+</div>
+
+<script>
+
+let interval = null;
+let remaining = 0;
+
+function updateTimer() {
+
+    let minutes = Math.floor(remaining / 60);
+    let seconds = remaining % 60;
+
+    document.getElementById("timer").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+}
+
+function startFocus() {
+
+    if (interval !== null) return;
+
+    if (remaining <= 0) {
+        remaining =
+            Number(document.getElementById("duration").value) * 60;
+    }
+
+    document.getElementById("message").textContent =
+        "أحسنت! ابدأ وقتك بهدوء 🌿";
+
+    updateTimer();
+
+    interval = setInterval(function() {
+
+        remaining--;
+        updateTimer();
+
+        if (remaining <= 0) {
+
+            clearInterval(interval);
+            interval = null;
+            remaining = 0;
+
+            document.getElementById("message").textContent =
+                "انتهت جلسة التركيز، أحسنت! 🌷";
+
+        }
+
+    }, 1000);
+}
+
+function stopFocus() {
+
+    clearInterval(interval);
+    interval = null;
+    remaining = 0;
+
+    updateTimer();
+
+    document.getElementById("message").textContent =
+        "تم إيقاف جلسة التركيز";
+
+}
+
+</script>
+
+</body>
+</html>

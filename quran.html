@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ختمة القرآن | سكينة</title>
+
+<style>
+    body {
+        background-color: #F4F0E6;
+        color: #536B50;
+        font-family: Arial;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .progress {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px auto;
+        max-width: 500px;
+    }
+
+    .surah {
+        background: white;
+        padding: 15px;
+        margin: 10px auto;
+        border-radius: 12px;
+        max-width: 500px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .surah label {
+        font-size: 17px;
+    }
+
+    input {
+        width: 20px;
+        height: 20px;
+        accent-color: #536B50;
+    }
+
+    .bar {
+        background: #E5E5E5;
+        height: 10px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    #fill {
+        background: #66866C;
+        height: 100%;
+        width: 0%;
+    }
+
+    a {
+        color: #536B50;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>📖 ختمة القرآن الكريم</h1>
+
+<p>رحلتك مع كتاب الله</p>
+
+<div class="progress">
+    <h3 id="count">0 من 114 سورة</h3>
+    <div class="bar">
+        <div id="fill"></div>
+    </div>
+    <p id="percentage">0%</p>
+</div>
+
+<div id="surahList"></div>
+
+<p><a href="index.html">العودة إلى الصفحة الرئيسية</a></p>
+
+<script>
+const surahs = [
+"الفاتحة","البقرة","آل عمران","النساء","المائدة",
+"الأنعام","الأعراف","الأنفال","التوبة","يونس",
+"هود","يوسف","الرعد","إبراهيم","الحجر",
+"النحل","الإسراء","الكهف","مريم","طه",
+"الأنبياء","الحج","المؤمنون","النور","الفرقان",
+"الشعراء","النمل","القصص","العنكبوت","الروم",
+"لقمان","السجدة","الأحزاب","سبأ","فاطر",
+"يس","الصافات","ص","الزمر","غافر",
+"فصلت","الشورى","الزخرف","الدخان","الجاثية",
+"الأحقاف","محمد","الفتح","الحجرات","ق",
+"الذاريات","الطور","النجم","القمر","الرحمن",
+"الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+"الصف","الجمعة","المنافقون","التغابن","الطلاق",
+"التحريم","الملك","القلم","الحاقة","المعارج",
+"نوح","الجن","المزمل","المدثر","القيامة",
+"الإنسان","المرسلات","النبأ","النازعات","عبس",
+"التكوير","الانفطار","المطففين","الانشقاق","البروج",
+"الطارق","الأعلى","الغاشية","الفجر","البلد",
+"الشمس","الليل","الضحى","الشرح","التين",
+"العلق","القدر","البينة","الزلزلة","العاديات",
+"القارعة","التكاثر","العصر","الهمزة","الفيل",
+"قريش","الماعون","الكوثر","الكافرون","النصر",
+"المسد","الإخلاص","الفلق","الناس"
+];
+
+const list = document.getElementById("surahList");
+
+function updateProgress() {
+    const checked = document.querySelectorAll(
+        ".surah input:checked"
+    ).length;
+
+    const percent = Math.round(checked / 114 * 100);
+
+    document.getElementById("count").textContent =
+        checked + " من 114 سورة";
+
+    document.getElementById("percentage").textContent =
+        percent + "%";
+
+    document.getElementById("fill").style.width =
+        percent + "%";
+}
+
+surahs.forEach((name, index) => {
+    const row = document.createElement("div");
+    row.className = "surah";
+
+    const label = document.createElement("label");
+    label.textContent = (index + 1) + ". " + name;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked =
+        localStorage.getItem("surah-" + index) === "true";
+
+    checkbox.addEventListener("change", () => {
+        localStorage.setItem(
+            "surah-" + index,
+            checkbox.checked
+        );
+        updateProgress();
+    });
+
+    row.appendChild(label);
+    row.appendChild(checkbox);
+    list.appendChild(row);
+});
+
+updateProgress();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>سَكينة | مواقيت الصلاة</title>
+
+<style>
+body {
+    background: #F4F0E6;
+    color: #536B50;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 420px;
+    margin: 30px auto;
+}
+
+.card {
+    background: white;
+    padding: 16px;
+    margin: 12px 0;
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input {
+    width: 125px;
+    padding: 9px;
+    border: 1px solid #D8D3C5;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #536B50;
+}
+
+button {
+    background: #536B50;
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+a {
+    display: block;
+    color: #536B50;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>سَكينة 🌿</h1>
+
+<p>أدخلي مواقيت الصلاة الخاصة بك</p>
+
+<div class="card">
+<strong>الفجر</strong>
+<input type="time" id="fajr">
+</div>
+
+<div class="card">
+<strong>الظهر</strong>
+<input type="time" id="dhuhr">
+</div>
+
+<div class="card">
+<strong>العصر</strong>
+<input type="time" id="asr">
+</div>
+
+<div class="card">
+<strong>المغرب</strong>
+<input type="time" id="maghrib">
+</div>
+
+<div class="card">
+<strong>العشاء</strong>
+<input type="time" id="isha">
+</div>
+
+<button onclick="saveTimes()">حفظ المواقيت</button>
+
+<p id="message"></p>
+
+<a href="index.html">العودة إلى الصفحة الرئيسية</a>
+
+</div>
+
+<script>
+
+const ids = [
+"fajr",
+"dhuhr",
+"asr",
+"maghrib",
+"isha"
+];
+
+window.onload = function() {
+    const saved = JSON.parse(
+        localStorage.getItem("prayerTimes") || "{}"
+    );
+
+    ids.forEach(id => {
+        document.getElementById(id).value =
+            saved[id] || "";
+    });
+};
+
+function saveTimes() {
+
+    const times = {};
+
+    ids.forEach(id => {
+        times[id] = document.getElementById(id).value;
+    });
+
+    if (ids.some(id => !times[id])) {
+        document.getElementById("message").textContent =
+            "يرجى إدخال أوقات الصلوات الخمس";
+        return;
+    }
+
+    localStorage.setItem(
+        "prayerTimes",
+        JSON.stringify(times)
+    );
+
+    document.getElementById("message").textContent =
+        "تم حفظ المواقيت بنجاح 🌿";
+}
+
+</script>
+
+</body>
+</html>
